@@ -13,6 +13,27 @@ bash <(curl -fsSL git.io/csh-golang.sh) -v 1.15.1
 curl -fsSL git.io/csh-golang.sh > csh-golang.sh && chmod +x csh-golang.sh && ./csh-golang.sh
 ```
 
+## lego.sh
+
+Install a simple [lego](https://github.com/go-acme/lego) environment
+
+```
+bash <(curl -fsSL git.io/csh-lego.sh)
+
+curl -fsSL git.io/csh-lego.sh | bash
+
+curl -fsSL git.io/csh-lego.sh > csh-lego.sh && chmod +x csh-lego.sh && ./csh-lego.sh
+
+# new
+DNSPOD_API_KEY=xxxxxx lego --email=myemail@example.com --dns=dnspod --domains=.example.org --key-type=rsa4096 --accept-tos --pem run
+# renew
+lego --email="foo@bar.com" --domains="example.com" --http renew --days 15
+# renew hook
+lego --email="foo@bar.com" --domains="example.com" --http renew --renew-hook="./myscript.sh"
+# crontab
+30 0 * * * lego --email="foo@bar.com" --domains="example.com" --http renew --days 15 > /dev/null
+```
+
 ## speedtest.sh
 
 Install a simple [speedtest-go](https://github.com/librespeed/speedtest-go) environment
