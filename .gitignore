@@ -23,3 +23,5 @@
 *.so
 *.sw[po]
 *.tar.gz
+
+control.sh

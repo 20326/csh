@@ -33,6 +33,16 @@ lego --email="foo@bar.com" --domains="example.com" --http renew --renew-hook="./
 # crontab
 30 0 * * * lego --email="foo@bar.com" --domains="example.com" --http renew --days 15 > /dev/null
 ```
+## buildctrl.sh
+Build control.sh file for
+```
+cd YourBinDir
+bash <(curl -fsSL git.io/csh-buildctrl.sh) -b speedtest-backend
+
+# using
+./control.sh start |stop | status | restart
+
+```
 
 ## speedtest.sh
 
@@ -44,6 +54,11 @@ bash <(curl -fsSL git.io/csh-speedtest.sh)
 curl -fsSL git.io/csh-speedtest.sh | bash
 
 curl -fsSL git.io/csh-speedtest.sh > csh-speedtest.sh && chmod +x csh-speedtest.sh && ./csh-speedtest.sh
+
+# build control.sh
+cd /web/speedtest
+bash <(curl -fsSL git.io/csh-buildctrl.sh) -b speedtest-backend
+
 ```
 ## Lisence
 
