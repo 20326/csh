@@ -37,7 +37,7 @@ lego --email="foo@bar.com" --domains="example.com" --http renew --renew-hook="./
 Build control.sh & bin.service file
 ```
 cd YourBinDir
-bash <(curl -fsSL git.io/csh-buildctrl.sh) -b speedtest-backend
+bash <(curl -fsSL git.io/csh-buildctrl.sh) -b binfile
 
 # using
 ./control.sh start |stop | status | restart

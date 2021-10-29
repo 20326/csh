@@ -174,7 +174,7 @@ download_archive() {
     INFO "Downloading $src to $dst"
 
     if which curl >/dev/null 2>&1; then
-        curl -fsSL -o "$dst" "$src"
+        curl -L -o "$dst" "$src"
     elif which wget >/dev/null 2>&1; then
         wget "$src" -O "$dst"
     else
