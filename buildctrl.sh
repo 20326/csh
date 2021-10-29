@@ -11,7 +11,24 @@
 ## Project Vars
 BIN_FILE=""
 BIN_PARAM=""
+SRV_NAME=""
 
+# fonts color
+ERRO(){
+    echo -e "\033[31m\033[01m$1\033[0m"
+}
+INFO(){
+    echo -e "\033[32m\033[01m$1\033[0m"
+}
+WARN(){
+    echo -e "\033[33m\033[01m$1\033[0m"
+}
+SUCC(){
+    echo -e "\033[34m\033[01m$1\033[0m"
+}
+BOLD(){
+    echo -e "\033[1m\033[01m$1\033[0m"
+}
 ##############################################################
 ## Project code
 build_control() {
@@ -107,11 +124,48 @@ status)
   ;;
 esac
 EOF
-sed -i "s/BIN_FILE/${BIN_FILE}/g" ./control.sh
-sed -i "s/BIN_PARAM/${BIN_PARAM}/g" ./control.sh
-chmod +x ./control.sh
+  sed -i "s/BIN_FILE/${BIN_FILE}/g" ./control.sh
+  sed -i "s/BIN_PARAM/${BIN_PARAM}/g" ./control.sh
+  chmod +x ./control.sh
+
+  INFO "usage: control.sh"
+  BOLD "./control.sh start | stop | status | reload"
 }
 
+build_service() {
+  cwd=$(
+    cd ./
+    pwd
+  )
+  if [ ! -n "${SRV_NAME}" ]; then
+    SRV_NAME=${BIN_FILE}
+  fi
+  cat <<EOF > ${SRV_NAME}.service
+[Unit]
+Description="${SRV_NAME}"
+
+[Service]
+Type=simple
+ExecStart=$cwd/${BIN_FILE}
+WorkingDirectory=$cwd
+
+Restart=always
+RestartSecs=1s
+SuccessExitStatus=0
+LimitNOFILE=65536
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=${SRV_NAME}
+
+
+[Install]
+WantedBy=multi-user.target
+EOF
+  INFO "\nusage: ${SRV_NAME}.service"
+  BOLD "cp -a ${SRV_NAME}.service /usr/lib/systemd/system/"
+  BOLD "systemctl enable ${SRV_NAME}"
+  BOLD "systemctl start ${SRV_NAME}"
+}
 
 ## Show help
 show_help() {
@@ -130,6 +184,7 @@ init_args() {
         case $1 in
             -b) BIN_FILE="$2"; shift ;;
             -p) BIN_PARAM="$2"; shift ;;
+            -s) SRV_NAME="$2"; shift ;;
             -h | --help) show_help ;;
             *) ERRO "Unknown parameter passed: $1"; exit 1 ;;
         esac
@@ -141,6 +196,7 @@ init_args() {
 main() {
     init_args "$@"
     build_control
+    build_service
 }
 
 main "$@" || exit 1

@@ -18,7 +18,7 @@ VERSION_URL="https://api.github.com/repos/librespeed/speedtest-go/releases/lates
 # Download archive name
 DOWNLOAD_FILE=""
 # Set Default GOPATH PATH
-INSTALL_PATH="/web/speedtest"
+INSTALL_PATH="/opt/speedtest"
 LISTEN_PORT=""
 
 ##############################################################
