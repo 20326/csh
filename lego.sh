@@ -208,10 +208,10 @@ install_binary() {
 
     # fetch latest verion
     LATEST=$(curl -fsSL "${VERSION_URL}" )
-    VERSION_TAG=$(echo "${LATEST}" | grep 'tag_name' | cut -d'"' -f4)
+    VERSION_TAG=$(echo "${LATEST}" | jq -r '.tag_name' | head -1)
 
     BOLD "Latest tag: ${VERSION_TAG}"
-    DOWNLOAD_URL=$(echo "${LATEST}" | grep 'browser_download_url.*tar.gz' | cut -d'"' -f4 | grep "${PLATFORM}_${ARCH}")
+    DOWNLOAD_URL=$(echo "${LATEST}" | jq -r '.assets[].browser_download_url' |grep -v ".dgst" | grep "${PLATFORM}_${ARCH}")
     DOWNLOAD_FILE="${DOWNLOAD_URL##*/}"
 
     download_archive ${DOWNLOAD_URL} ${DOWNLOAD_FILE}
