@@ -153,8 +153,8 @@ Restart=always
 RestartSecs=1s
 SuccessExitStatus=0
 LimitNOFILE=65536
-StandardOutput=syslog
-StandardError=syslog
+StandardOutput=file:/var/log/${BIN_FILE}.log
+StandardError=file:/var/log/${BIN_FILE}_error.log
 SyslogIdentifier=${SRV_NAME}
 
 
